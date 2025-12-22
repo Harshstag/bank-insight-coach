@@ -1,3 +1,4 @@
+# python
 from fastapi import FastAPI, HTTPException
 import pandas as pd
 import os
@@ -5,35 +6,46 @@ import json
 
 from services.categorizer import categorize_transaction
 from services.insights import generate_insights
+from services.signal_generator import generate_signals
+from services.nlp_engine import generate_nlp_notification
+from services.transaction_loader import load_transactions
 
 app = FastAPI()
 
-# 📍 Path where Spring Boot stores uploaded CSV
-CSV_PATH = "../uploads/transactions.csv"
+CSV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "uploads", "transactions.csv")
+
+
+def compute_insights():
+    # shared processing: read CSV, categorize, generate insights, return JSON-serializable dict
+    if not os.path.exists(CSV_PATH):
+        raise HTTPException(status_code=404, detail="Transactions CSV not found. Please upload file first.")
+
+    df = load_transactions()
+    if "merchant" in df.columns:
+        df["category"] = df["merchant"].apply(categorize_transaction)
+    insights = generate_insights(df)
+    transactions = json.loads(df.to_json(orient="records"))
+
+    return {"transactions": transactions, "insights": insights}
 
 
 @app.get("/insights")
 def get_insights():
-    # 1️⃣ Check if file exists
-    if not os.path.exists(CSV_PATH):
-        raise HTTPException(
-            status_code=404,
-            detail="Transactions CSV not found. Please upload file first."
-        )
+    return compute_insights()
 
-    # 2️⃣ Read CSV into memory (DataFrame)
-    df = pd.read_csv(CSV_PATH)
 
-    # 3️⃣ Add category column (IN MEMORY ONLY)
-    df["category"] = df["merchant"].apply(categorize_transaction)
+@app.post("/recalculate")
+def recalculate():
+    # trigger recalculation by reusing the same helper
+    return compute_insights()
 
-    # 4️⃣ Generate insights
-    insights = generate_insights(df)
 
-    # 5️⃣ Return structured JSON with native types
-    transactions = json.loads(df.to_json(orient="records"))
+@app.get("/nlpNotification")
+def get_insights():
+    signals = generate_signals()
+    nlp = generate_nlp_notification(signals)
 
     return {
-        "transactions": transactions,
-        "insights": insights
+        "signals": signals,
+        "nlpNotification": nlp
     }
