@@ -3,7 +3,14 @@ from services.categorizer import categorize_transaction
 
 
 def add_category(df):
-    df["category"] = df["merchant"].apply(categorize_transaction)
+    # Use both description (priority) and merchant for better categorization
+    df["category"] = df.apply(
+        lambda row: categorize_transaction(
+            description=row.get("description", ""),
+            merchant=row.get("merchant", "")
+        ),
+        axis=1
+    )
     return df
 
 

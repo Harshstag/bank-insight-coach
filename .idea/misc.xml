@@ -6,7 +6,10 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/insights/pom.xml" />
+        <option value="$PROJECT_DIR$/llm-service/llmService/pom.xml" />
+        <option value="$PROJECT_DIR$/service-registry/serviceRegistry/pom.xml" />
         <option value="$PROJECT_DIR$/bank-insights-spring-backend/pom.xml" />
+        <option value="$PROJECT_DIR$/nlp-service/nlpService/pom.xml" />
       </list>
     </option>
   </component>

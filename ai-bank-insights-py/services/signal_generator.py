@@ -9,8 +9,15 @@ def generate_signals():
     # Only DEBIT transactions
     df = df[df["txn_type"] == "DEBIT"]
     
-    # Add category column to the full dataframe first
-    df["category"] = df["merchant"].apply(categorize_transaction)
+    # Add category column using both description (priority) and merchant
+    # Description is prioritized for better accuracy with QR payments and user notes
+    df["category"] = df.apply(
+        lambda row: categorize_transaction(
+            description=row.get("description", ""),
+            merchant=row.get("merchant", "")
+        ),
+        axis=1
+    )
     
     # Get the most recent transaction's category
     most_recent_category = df.iloc[-1]["category"] if len(df) > 0 else None
@@ -52,5 +59,6 @@ def generate_signals():
                 (category_weekly / signals["total_weekly_spend"] * 100) if signals["total_weekly_spend"] > 0 else 0, 2
             )
         }
+    print(df[["description", "merchant", "category"]].tail(10))
 
     return signals

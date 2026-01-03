@@ -1,7 +1,8 @@
-package llmService.llmService.dto;
+package bank.nlpService.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+
 import java.util.Map;
 
 @Data

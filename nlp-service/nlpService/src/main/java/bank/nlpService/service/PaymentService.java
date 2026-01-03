@@ -1,9 +1,8 @@
-package com.bank.insights.service;
-import com.bank.insights.dto.AiNotification;
-import com.bank.insights.dto.InsightsResponse;
-import com.bank.insights.dto.QrPaymentResponse;
-import com.bank.insights.model.QrPaymentRequest;
-import com.bank.insights.model.Transaction;
+package bank.nlpService.service;
+import bank.nlpService.dto.AiNotification;
+import bank.nlpService.dto.QrPaymentResponse;
+import bank.nlpService.model.QrPaymentRequest;
+import bank.nlpService.model.Transaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +47,7 @@ public class PaymentService {
         );
 
         appendTransactionToCsv(txn);
-        AiNotification notification = notificationService.fetchNlpNotification();
+        AiNotification notification = notificationService.fetchNotification(true);
 
         return QrPaymentResponse.builder()
                 .transactionId(UUID.randomUUID().toString())

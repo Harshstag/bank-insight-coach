@@ -1,8 +1,7 @@
-package com.bank.insights.controller;
+package bank.nlpService.controller;
 
 
-import com.bank.insights.model.Transaction;
-import com.bank.insights.service.TransactionService;
+import bank.nlpService.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,36 +24,24 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
+                            private static final String UPLOAD_DIR = "uploads/";
 
-    @GetMapping
-    public String healthCheck() {
-        return "Transaction Service is up and running!";
-    }
+                            @PostMapping("/upload")
+                            public ResponseEntity<String> uploadCsv(@RequestParam("file") MultipartFile file)
+                                    throws IOException {
 
-    @RestController
-    @RequestMapping("/api/transactions")
-    public class TransactionUploadController {
+                                // 1️⃣ Create uploads folder if not exists
+                                File uploadDir = new File(UPLOAD_DIR);
+                                if (!uploadDir.exists()) {
+                                    uploadDir.mkdirs();
+                                }
 
-        private static final String UPLOAD_DIR = "uploads/";
+                                // 2️⃣ Save file locally
+                                Path filePath = Paths.get(UPLOAD_DIR + "transactions.csv");
+                                Files.write(filePath, file.getBytes());
 
-        @PostMapping("/upload")
-        public ResponseEntity<String> uploadCsv(@RequestParam("file") MultipartFile file)
-                throws IOException {
-
-            // 1️⃣ Create uploads folder if not exists
-            File uploadDir = new File(UPLOAD_DIR);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-
-            // 2️⃣ Save file locally
-            Path filePath = Paths.get(UPLOAD_DIR + "transactions.csv");
-            Files.write(filePath, file.getBytes());
-
-            return ResponseEntity.ok("File uploaded successfully");
-        }
-    }
-
+                                return ResponseEntity.ok("File uploaded successfully");
+                            }
 
     @GetMapping("/insights")
     public String getInsights() {

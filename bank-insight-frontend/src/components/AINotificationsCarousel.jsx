@@ -55,7 +55,7 @@ const AINotificationsCarousel = () => {
   // Get color scheme based on severity and confidence
   const getNotificationStyle = (severity, confidence) => {
     const styles = {
-      WARNING: {
+      CRITICAL: {
         HIGH: {
           bg: "from-red-500 to-orange-600",
           border: "border-red-300",
@@ -101,7 +101,7 @@ const AINotificationsCarousel = () => {
           badgeText: "text-sky-700",
         },
       },
-      ALERT: {
+      WARNING: {
         HIGH: {
           bg: "from-purple-500 to-pink-600",
           border: "border-purple-300",

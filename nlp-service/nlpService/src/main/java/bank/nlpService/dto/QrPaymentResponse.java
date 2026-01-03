@@ -1,7 +1,7 @@
-package com.bank.insights.dto;
+package bank.nlpService.dto;
 
 
-import com.bank.insights.model.Transaction;
+import bank.nlpService.model.Transaction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

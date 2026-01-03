@@ -1,6 +1,5 @@
-package com.bank.insights.dto;
+package bank.nlpService.dto;
 
-import com.bank.insights.dto.AiNotification ;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,5 +24,5 @@ public class InsightsResponse {
      * Human-readable NLP / AI insight
      */
     @JsonProperty("nlpNotification")
-    private AiNotification aiNotification;
+    private bank.nlpService.dto.AiNotification aiNotification;
 }

@@ -1,6 +1,6 @@
-package com.bank.insights.service;
+package bank.nlpService.service;
 
-import com.bank.insights.model.Transaction;
+import bank.nlpService.model.Transaction;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -1,4 +1,4 @@
-package com.bank.insights.dto;
+package bank.nlpService.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

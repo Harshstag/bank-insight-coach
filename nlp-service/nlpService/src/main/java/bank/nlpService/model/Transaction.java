@@ -1,4 +1,4 @@
-package com.bank.insights.model;
+package bank.nlpService.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

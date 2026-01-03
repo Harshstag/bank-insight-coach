@@ -1,9 +1,9 @@
-package com.bank.insights.controller;
+package bank.nlpService.controller;
 
+import bank.nlpService.dto.AiNotification;
+import bank.nlpService.dto.InsightsResponse;
+import bank.nlpService.service.NotificationService;
 
-import com.bank.insights.dto.AiNotification;
-import com.bank.insights.dto.InsightsResponse;
-import com.bank.insights.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

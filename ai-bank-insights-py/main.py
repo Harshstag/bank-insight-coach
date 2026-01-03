@@ -21,8 +21,18 @@ def compute_insights():
         raise HTTPException(status_code=404, detail="Transactions CSV not found. Please upload file first.")
 
     df = load_transactions()
-    if "merchant" in df.columns:
-        df["category"] = df["merchant"].apply(categorize_transaction)
+    # Use both description (priority) and merchant for categorization
+    if "description" in df.columns and "merchant" in df.columns:
+        df["category"] = df.apply(
+            lambda row: categorize_transaction(
+                description=row.get("description", ""),
+                merchant=row.get("merchant", "")
+            ),
+            axis=1
+        )
+    elif "merchant" in df.columns:
+        df["category"] = df["merchant"].apply(lambda m: categorize_transaction("", m))
+    
     insights = generate_insights(df)
     transactions = json.loads(df.to_json(orient="records"))
 

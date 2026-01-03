@@ -1,15 +1,13 @@
-package com.bank.insights.controller;
-import com.bank.insights.dto.AiNotification;
-import com.bank.insights.dto.InsightsResponse;
-import com.bank.insights.dto.QrPaymentResponse;
-import com.bank.insights.model.QrPaymentRequest;
-import com.bank.insights.model.Transaction;
-import com.bank.insights.service.NotificationService;
+package bank.nlpService.controller;
+
+import bank.nlpService.dto.AiNotification;
+import bank.nlpService.dto.QrPaymentResponse;
+import bank.nlpService.model.QrPaymentRequest;
+import bank.nlpService.service.NotificationService;
+import bank.nlpService.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.bank.insights.service.PaymentService;
-import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -33,17 +31,12 @@ public class QrPaymentController {
         response.put("status", qrResponse.getStatus() != null ? qrResponse.getStatus() : "SUCCESS");
         response.put("transactionId", qrResponse.getTransactionId() != null ? qrResponse.getTransactionId() : UUID.randomUUID().toString());
         response.put("transaction", qrResponse.getTransaction());
+        AiNotification aiNotification = qrResponse.getAiNotification();
 
-        AiNotification ai = qrResponse.getAiNotification();
-
-        // if service didn't return one, attempt to fetch directly
-        if (ai == null) {
-            ai = notificationService.fetchNlpNotification();
-        }
 
         // final fallback default
-        if (ai == null) {
-            ai = AiNotification.builder()
+        if (aiNotification == null) {
+            aiNotification = AiNotification.builder()
                     .mode("RULE_BASED")
                     .severity("WARNING")
                     .title("High Food Spending")
@@ -52,7 +45,7 @@ public class QrPaymentController {
                     .build();
         }
 
-        response.put("aiNotification", ai);
+        response.put("aiNotification", aiNotification);
 
         return ResponseEntity.ok(response);
     }
