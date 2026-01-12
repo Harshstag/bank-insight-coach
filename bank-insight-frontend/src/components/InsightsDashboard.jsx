@@ -229,6 +229,151 @@ const InsightsDashboard = () => {
             <p className="text-purple-100 text-xs">per transaction</p>
           </div>
         </div>
+        {/* FIXED: Investment, EMI, SIP Section */}
+        {(insights.insights.monthly_investment ||
+          insights.insights.monthly_emi ||
+          insights.insights.monthly_sip) && (
+          <div className="mb-6">
+            <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <DollarSign className="w-6 h-6 text-blue-600" />
+              Financial Commitments & Investments
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Monthly Investment */}
+              {insights.insights.monthly_investment > 0 && (
+                <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl p-5 border-2 border-emerald-300 shadow-md hover:shadow-lg transition-shadow">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2 bg-emerald-100 rounded-lg">
+                      <TrendingUp className="w-6 h-6 text-emerald-600" />
+                    </div>
+                    <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">
+                      INVESTMENTS
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-1">
+                    Monthly Investment
+                  </p>
+                  <p className="text-3xl font-bold text-emerald-700 mb-2">
+                    ₹
+                    {insights.insights.monthly_investment.toLocaleString(
+                      "en-IN"
+                    )}
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    ₹
+                    {(insights.insights.monthly_investment * 12).toLocaleString(
+                      "en-IN"
+                    )}{" "}
+                    annually
+                  </p>
+                </div>
+              )}
+
+              {/* Monthly EMI */}
+              {insights.insights.monthly_emi > 0 && (
+                <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-5 border-2 border-orange-300 shadow-md hover:shadow-lg transition-shadow">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2 bg-orange-100 rounded-lg">
+                      <Calendar className="w-6 h-6 text-orange-600" />
+                    </div>
+                    <span className="text-xs font-bold text-orange-700 bg-orange-100 px-3 py-1 rounded-full">
+                      EMI
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-1">Monthly EMI</p>
+                  <p className="text-3xl font-bold text-orange-700 mb-2">
+                    ₹{insights.insights.monthly_emi.toLocaleString("en-IN")}
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    ₹
+                    {(insights.insights.monthly_emi * 12).toLocaleString(
+                      "en-IN"
+                    )}{" "}
+                    annually
+                  </p>
+                </div>
+              )}
+
+              {/* Monthly SIP */}
+              {insights.insights.monthly_sip > 0 && (
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-5 border-2 border-blue-300 shadow-md hover:shadow-lg transition-shadow">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <PiggyBank className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <span className="text-xs font-bold text-blue-700 bg-blue-100 px-3 py-1 rounded-full">
+                      SIP
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-1">Monthly SIP</p>
+                  <p className="text-3xl font-bold text-blue-700 mb-2">
+                    ₹{insights.insights.monthly_sip.toLocaleString("en-IN")}
+                  </p>
+                  <p className="text-xs text-gray-600">
+                    ₹
+                    {(insights.insights.monthly_sip * 12).toLocaleString(
+                      "en-IN"
+                    )}{" "}
+                    annually
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Summary Card */}
+            {(insights.insights.monthly_investment ||
+              insights.insights.monthly_emi ||
+              insights.insights.monthly_sip) && (
+              <div className="mt-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-5 border-2 border-purple-300">
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">
+                      Total Monthly Commitment
+                    </p>
+                    <p className="text-3xl font-bold text-purple-700">
+                      ₹
+                      {(
+                        (insights.insights.monthly_investment || 0) +
+                        (insights.insights.monthly_emi || 0) +
+                        (insights.insights.monthly_sip || 0)
+                      ).toLocaleString("en-IN")}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-gray-600 mb-1">Breakdown</p>
+                    <div className="space-y-1 text-xs">
+                      {insights.insights.monthly_investment > 0 && (
+                        <p className="text-emerald-700">
+                          Investment: ₹
+                          {insights.insights.monthly_investment.toLocaleString(
+                            "en-IN"
+                          )}
+                        </p>
+                      )}
+                      {insights.insights.monthly_emi > 0 && (
+                        <p className="text-orange-700">
+                          EMI: ₹
+                          {insights.insights.monthly_emi.toLocaleString(
+                            "en-IN"
+                          )}
+                        </p>
+                      )}
+                      {insights.insights.monthly_sip > 0 && (
+                        <p className="text-blue-700">
+                          SIP: ₹
+                          {insights.insights.monthly_sip.toLocaleString(
+                            "en-IN"
+                          )}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Top Spending Highlights */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

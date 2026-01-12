@@ -61,4 +61,15 @@ def generate_signals():
         }
     print(df[["description", "merchant", "category"]].tail(10))
 
+    # Add explicit monthly totals for Investment / EMI / SIP to aid dashboards
+    def _monthly_total(cat_name: str) -> float:
+        try:
+            return float(monthly[monthly["category"] == cat_name]["amount"].sum())
+        except Exception:
+            return 0.0
+
+    signals["monthly_investment"] = _monthly_total("Investment")
+    signals["monthly_emi"] = _monthly_total("EMI")
+    signals["monthly_sip"] = _monthly_total("SIP")
+
     return signals

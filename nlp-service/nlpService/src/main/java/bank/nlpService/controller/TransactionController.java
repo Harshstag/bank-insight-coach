@@ -24,24 +24,24 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-                            private static final String UPLOAD_DIR = "uploads/";
+                                                private static final String UPLOAD_DIR = "uploads/";
 
-                            @PostMapping("/upload")
-                            public ResponseEntity<String> uploadCsv(@RequestParam("file") MultipartFile file)
-                                    throws IOException {
+                                                @PostMapping("/upload")
+                                                public ResponseEntity<String> uploadCsv(@RequestParam("file") MultipartFile file)
+                                                        throws IOException {
 
-                                // 1️⃣ Create uploads folder if not exists
-                                File uploadDir = new File(UPLOAD_DIR);
-                                if (!uploadDir.exists()) {
-                                    uploadDir.mkdirs();
-                                }
+                                                    // 1️⃣ Create uploads folder if not exists
+                                                    File uploadDir = new File(UPLOAD_DIR);
+                                                    if (!uploadDir.exists()) {
+                                                        uploadDir.mkdirs();
+                                                    }
 
-                                // 2️⃣ Save file locally
-                                Path filePath = Paths.get(UPLOAD_DIR + "transactions.csv");
-                                Files.write(filePath, file.getBytes());
+                                                    // 2️⃣ Save file locally
+                                                    Path filePath = Paths.get(UPLOAD_DIR + "transactions.csv");
+                                                    Files.write(filePath, file.getBytes());
 
-                                return ResponseEntity.ok("File uploaded successfully");
-                            }
+                                                    return ResponseEntity.ok("File uploaded successfully");
+                                                }
 
     @GetMapping("/insights")
     public String getInsights() {

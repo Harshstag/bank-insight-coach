@@ -135,6 +135,11 @@ def generate_insights(df):
         "start_date": str(df["txn_date"].min().date()),
         "end_date": str(df["txn_date"].max().date())
     }
+    
+    # Monthly Investment, EMI, SIP totals (for AI recommendations and dashboard)
+    insights["monthly_investment"] = float(debit_df[debit_df["category"] == "Investment"]["amount"].sum())
+    insights["monthly_emi"] = float(debit_df[debit_df["category"] == "EMI"]["amount"].sum())
+    insights["monthly_sip"] = float(debit_df[debit_df["category"] == "SIP"]["amount"].sum())
 
     return insights
 

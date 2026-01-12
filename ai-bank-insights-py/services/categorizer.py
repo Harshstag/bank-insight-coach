@@ -43,6 +43,46 @@ def categorize_transaction(description: str = "", merchant: str = ""):
     
     # Define categories with their keywords (order matters - more specific first)
     categories = {
+        # Investments via brokers and platforms
+        "Investment": [
+            # Indian brokers/platforms
+            "zerodha", "groww", "upstox", "angel one", "angelone", "hdfc securities",
+            "icici direct", "kotak securities", "sharekhan", "5paisa", "motilal oswal",
+            "sbismart", "axis direct", "edelweiss", "paytm money",
+            # Generic investment terms
+            "broker", "demat", "equity", "stock", "ipo", "investment", "buy order",
+            "delivery trade", "intraday",
+        ],
+
+        # Systematic Investment Plans (recurring MF debits)
+        "SIP": [
+            # Explicit SIP terms
+            "sip", "systematic investment plan", "monthly sip", "auto sip", "mf sip",
+            # MF platforms commonly used for SIPs
+            "coin", "groww sip", "paytm money", "kuvera", "et money", "clearfunds",
+            # AMC / Mutual fund houses
+            "hdfc mutual fund", "sbi mutual fund", "icici prudential", "nippon india",
+            "axis mutual fund", "kotak mutual fund", "uti mutual fund", "mirae asset",
+            "canara robeco", "aditya birla sun life",
+            # Generic MF terms
+            "mutual fund", "nav purchase", "sip debit",
+        ],
+
+        # Loan EMIs and instalments
+        "EMI": [
+            # Explicit EMI words/variants - MOST SPECIFIC FIRST
+            "loan emi", "emi", "loan repayment", "equated monthly instalment",
+            "equated monthly installment", "instalment", "installment", "e.m.i",
+            # Loan types (specific)
+            "home loan emi", "car loan emi", "vehicle loan emi", "education loan emi",
+            "personal loan emi", "bike loan emi", "two wheeler loan emi",
+            "home loan", "car loan", "vehicle loan", "education loan",
+            "personal loan", "bike loan", "two wheeler loan",
+            "credit card emi", "no cost emi",
+            # NBFCs/Lenders (keep only non-bank finance companies to avoid conflicts)
+            "bajaj finance", "tata capital", "mahindra finance", "tvs credit", 
+            "home credit", "fullerton", "muthoot finance", "shriram finance",
+        ],
         "Food": [
             # Specific brands first
             "zomato", "swiggy", "ubereats", "starbucks", "dominos", "kfc", 

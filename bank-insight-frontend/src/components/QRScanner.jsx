@@ -560,14 +560,14 @@ const QRScanner = ({ onClose, onViewInsights }) => {
         )}
       </div>
       // ... (keep all existing code, just update the notification display part)
-      {/* AI Notification - Updated Format */}
+      {/* AI Notification - Reduced Height */}
       {showNotification && notification && (
         <div
           onClick={handleNotificationClick}
           className="fixed top-20 left-4 right-4 z-50 animate-slideDown max-w-lg mx-auto cursor-pointer"
         >
           <div
-            className={`bg-white rounded-2xl shadow-2xl border-2 overflow-hidden ${
+            className={`bg-white rounded-xl shadow-2xl border-2 overflow-hidden ${
               notification.severity === "WARNING"
                 ? "border-orange-400"
                 : notification.severity === "ALERT"
@@ -576,7 +576,7 @@ const QRScanner = ({ onClose, onViewInsights }) => {
             }`}
           >
             <div
-              className={`p-5 flex items-start gap-4 ${
+              className={`p-3 flex items-start gap-3 ${
                 notification.severity === "WARNING"
                   ? "bg-orange-50"
                   : notification.severity === "ALERT"
@@ -585,7 +585,7 @@ const QRScanner = ({ onClose, onViewInsights }) => {
               }`}
             >
               <div
-                className={`p-3 rounded-full flex-shrink-0 ${
+                className={`p-2 rounded-full flex-shrink-0 ${
                   notification.severity === "WARNING"
                     ? "bg-orange-100"
                     : notification.severity === "ALERT"
@@ -594,7 +594,7 @@ const QRScanner = ({ onClose, onViewInsights }) => {
                 }`}
               >
                 <Bell
-                  className={`w-6 h-6 ${
+                  className={`w-5 h-5 ${
                     notification.severity === "WARNING"
                       ? "text-orange-600"
                       : notification.severity === "ALERT"
@@ -604,8 +604,8 @@ const QRScanner = ({ onClose, onViewInsights }) => {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-2">
-                  <h4 className="font-bold text-gray-800 text-base">
+                <div className="flex items-center gap-2 mb-1">
+                  <h4 className="font-bold text-gray-800 text-sm">
                     {notification.title}
                   </h4>
                   <span
@@ -620,10 +620,10 @@ const QRScanner = ({ onClose, onViewInsights }) => {
                     {notification.confidence}
                   </span>
                 </div>
-                <p className="text-sm text-gray-700 leading-relaxed break-words whitespace-normal mb-2">
+                <p className="text-xs text-gray-700 leading-snug line-clamp-2 mb-1">
                   {notification.message}
                 </p>
-                <div className="flex items-center gap-3 text-xs">
+                <div className="flex items-center gap-2 text-xs">
                   <span
                     className={`px-2 py-0.5 rounded ${
                       notification.mode === "RULE_BASED"
@@ -633,7 +633,7 @@ const QRScanner = ({ onClose, onViewInsights }) => {
                   >
                     {notification.mode}
                   </span>
-                  <span className="text-gray-500">Tap to view insights →</span>
+                  <span className="text-gray-500">Tap to view →</span>
                 </div>
               </div>
               <button
@@ -643,7 +643,7 @@ const QRScanner = ({ onClose, onViewInsights }) => {
                 }}
                 className="p-1 hover:bg-gray-200 rounded-full transition-all flex-shrink-0"
               >
-                <X className="w-5 h-5 text-gray-600" />
+                <X className="w-4 h-4 text-gray-600" />
               </button>
             </div>
           </div>

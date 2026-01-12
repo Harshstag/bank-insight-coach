@@ -1,6 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Brain, Sparkles, AlertTriangle, Info, Shield } from "lucide-react";
+import {
+  Brain,
+  Sparkles,
+  AlertTriangle,
+  Info,
+  Shield,
+  X,
+  Maximize2,
+} from "lucide-react";
 import {
   fetchAINotifications,
   selectAINotifications,
@@ -15,6 +23,7 @@ const AINotificationsCarousel = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [selectedNotification, setSelectedNotification] = useState(null);
 
   useEffect(() => {
     dispatch(fetchAINotifications());
@@ -39,7 +48,7 @@ const AINotificationsCarousel = () => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - scrollContainerRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Scroll speed multiplier
+    const walk = (x - startX) * 2;
     scrollContainerRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -52,10 +61,20 @@ const AINotificationsCarousel = () => {
     }
   };
 
+  const handleCardClick = (notification) => {
+    if (!isDragging) {
+      setSelectedNotification(notification);
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedNotification(null);
+  };
+
   // Get color scheme based on severity and confidence
   const getNotificationStyle = (severity, confidence) => {
     const styles = {
-      CRITICAL: {
+      WARNING: {
         HIGH: {
           bg: "from-red-500 to-orange-600",
           border: "border-red-300",
@@ -101,7 +120,7 @@ const AINotificationsCarousel = () => {
           badgeText: "text-sky-700",
         },
       },
-      WARNING: {
+      ALERT: {
         HIGH: {
           bg: "from-purple-500 to-pink-600",
           border: "border-purple-300",
@@ -143,103 +162,105 @@ const AINotificationsCarousel = () => {
     return null;
   }
 
-  // Reverse notifications to show latest first
   const reversedNotifications = [...notifications].reverse();
 
   return (
-    <div className="w-full mb-6">
-      {/* Header */}
-      <div className="mb-4 flex items-center justify-between px-2">
-        <div className="flex items-center gap-2">
-          <div className="relative">
-            <Brain className="w-7 h-7 text-purple-600" />
-            <Sparkles className="w-3 h-3 text-yellow-500 absolute -top-1 -right-1" />
-          </div>
-          <div>
-            <h2 className="text-xl md:text-2xl font-bold text-gray-800">
-              AI Insights
-            </h2>
-            <p className="text-xs text-gray-600">
-              Smart financial recommendations • Latest first
-            </p>
+    <>
+      <div className="w-full mb-6">
+        {/* Header */}
+        <div className="mb-4 flex items-center justify-between px-2">
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <Brain className="w-7 h-7 text-purple-600" />
+              <Sparkles className="w-3 h-3 text-yellow-500 absolute -top-1 -right-1" />
+            </div>
+            <div>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+                AI Insights
+              </h2>
+              <p className="text-xs text-gray-600">
+                Tap to expand • Latest first
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Scrollable Carousel */}
-      <div className="relative">
-        {/* Cards Container with Drag Support */}
-        <div
-          ref={scrollContainerRef}
-          className="overflow-x-auto pb-3 hide-scrollbar cursor-grab active:cursor-grabbing"
-          onMouseDown={handleMouseDown}
-          onMouseUp={handleMouseUp}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          style={{ userSelect: "none" }}
-        >
-          <div className="flex gap-3 px-2 pt-3">
-            {reversedNotifications.map((notification, index) => {
-              const style = getNotificationStyle(
-                notification.severity,
-                notification.confidence
-              );
-              const Icon = style.icon;
-              const displayNumber = reversedNotifications.length - index; // Show 5, 4, 3, 2, 1
+        {/* Scrollable Carousel */}
+        <div className="relative">
+          <div
+            ref={scrollContainerRef}
+            className="overflow-x-auto pb-3 hide-scrollbar cursor-grab active:cursor-grabbing"
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ userSelect: "none" }}
+          >
+            <div className="flex gap-3 px-2 pt-3">
+              {reversedNotifications.map((notification, index) => {
+                const style = getNotificationStyle(
+                  notification.severity,
+                  notification.confidence
+                );
+                const Icon = style.icon;
+                const displayNumber = reversedNotifications.length - index;
 
-              return (
-                <div
-                  key={index}
-                  className="flex-shrink-0 w-72 sm:w-80 relative"
-                  style={{ pointerEvents: isDragging ? "none" : "auto" }}
-                >
-                  {/* Card Number - Fixed positioning to prevent cutoff */}
-                  <div className="absolute -top-2 -right-2 w-7 h-7 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg z-20">
-                    {displayNumber}
-                  </div>
-
-                  {/* Card */}
+                return (
                   <div
-                    className={`relative bg-white rounded-xl border-2 ${style.border} shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden mt-1`}
+                    key={index}
+                    className="flex-shrink-0 w-72 sm:w-80 relative cursor-pointer"
+                    onClick={() => handleCardClick(notification)}
                   >
-                    {/* Gradient Header - Compact */}
+                    {/* Expand Icon
+                    <div className="absolute top-1 right-10 z-30 bg-white rounded-full p-1 shadow-md">
+                      <Maximize2 className="w-3 h-3 text-gray-600" />
+                    </div> */}
+
+                    {/* Card Number */}
+                    <div className="absolute -top-2 -right-2 w-7 h-7 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg z-20">
+                      {displayNumber}
+                    </div>
+
+                    {/* Card */}
                     <div
-                      className={`bg-gradient-to-r ${style.bg} p-4 text-white relative`}
+                      className={`relative bg-white rounded-xl border-2 ${style.border} shadow-md hover:shadow-lg transition-all duration-200 overflow-hidden mt-1`}
                     >
-                      {/* Content */}
-                      <div className="relative z-10">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <div className="p-1.5 bg-white/20 rounded-lg">
-                              <Icon className="w-4 h-4" />
+                      {/* Gradient Header */}
+                      <div
+                        className={`bg-gradient-to-r ${style.bg} p-4 text-white relative`}
+                      >
+                        <div className="relative z-10">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <div className="p-1.5 bg-white/20 rounded-lg">
+                                <Icon className="w-4 h-4" />
+                              </div>
+                              <span className="text-xs font-bold line-clamp-1">
+                                {notification.title}
+                              </span>
                             </div>
-                            <span className="text-xs font-bold">
-                              {notification.title}
-                            </span>
-                          </div>
-                          <div
-                            className={`px-2 py-0.5 rounded-full text-xs font-bold ${style.badgeBg} ${style.badgeText}`}
-                          >
-                            {notification.confidence}
+                            <div
+                              className={`px-2 py-0.5 rounded-full text-xs font-bold ${style.badgeBg} ${style.badgeText}`}
+                            >
+                              {notification.confidence}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Message Body - Compact */}
-                    <div className="p-4">
-                      <p className="text-gray-700 text-sm leading-snug line-clamp-3">
-                        {notification.message}
-                      </p>
+                      {/* Message Body */}
+                      <div className="p-4">
+                        <p className="text-gray-700 text-sm leading-snug line-clamp-3">
+                          {notification.message}
+                        </p>
 
-                      {/* Footer - Compact */}
-                      <div className="mt-3 pt-3 border-t border-gray-200 flex items-center justify-between">
-                        <span
-                          className={`text-xs font-semibold ${style.badgeText}`}
-                        >
-                          {notification.severity}
-                        </span>
-                        <div className="flex items-center gap-1">
+                        {/* Footer */}
+                        <div className="mt-3 pt-3 border-t border-gray-200 flex items-center justify-between">
+                          <span
+                            className={`text-xs font-semibold ${style.badgeText}`}
+                          >
+                            {notification.severity}
+                          </span>
                           <span className="text-xs text-gray-500">
                             {notification.mode}
                           </span>
@@ -247,21 +268,129 @@ const AINotificationsCarousel = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        {/* Scroll Hint Text */}
-        <div className="text-center mt-2">
-          <p className="text-xs text-gray-500 italic">
-            💡 Drag to scroll on desktop • Swipe on mobile
-          </p>
+          {/* Scroll Hint */}
+          <div className="text-center mt-2">
+            <p className="text-xs text-gray-500 italic">
+              💡 Drag to scroll • Tap card to view full details
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Custom Scrollbar Hide & Styles */}
+      {/* MODAL - Full Notification View */}
+      {selectedNotification && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fadeIn"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-slideUp"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {(() => {
+              const style = getNotificationStyle(
+                selectedNotification.severity,
+                selectedNotification.confidence
+              );
+              const Icon = style.icon;
+
+              return (
+                <>
+                  {/* Modal Header */}
+                  <div
+                    className={`bg-gradient-to-r ${style.bg} p-6 text-white relative`}
+                  >
+                    <button
+                      onClick={closeModal}
+                      className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-full transition-all"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+
+                    <div className="flex items-start gap-4">
+                      <div className="p-3 bg-white/20 rounded-xl">
+                        <Icon className="w-8 h-8" />
+                      </div>
+                      <div className="flex-1">
+                        <h2 className="text-2xl font-bold mb-2">
+                          {selectedNotification.title}
+                        </h2>
+                        <div className="flex flex-wrap gap-2">
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-bold ${style.badgeBg} ${style.badgeText}`}
+                          >
+                            {selectedNotification.confidence}
+                          </span>
+                          <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/20">
+                            {selectedNotification.mode}
+                          </span>
+                          <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/20">
+                            {selectedNotification.severity}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Modal Body */}
+                  <div className="p-6">
+                    <h3 className="text-sm font-bold text-gray-600 uppercase mb-3">
+                      Full Message
+                    </h3>
+                    <p className="text-gray-800 leading-relaxed text-base whitespace-pre-wrap">
+                      {selectedNotification.message}
+                    </p>
+
+                    {/* Additional Info */}
+                    <div className="mt-6 p-4 bg-gray-50 rounded-xl">
+                      <h4 className="text-sm font-bold text-gray-700 mb-3">
+                        Notification Details
+                      </h4>
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                          <p className="text-gray-600 text-xs">
+                            Severity Level
+                          </p>
+                          <p className={`font-bold ${style.badgeText}`}>
+                            {selectedNotification.severity}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-gray-600 text-xs">Confidence</p>
+                          <p className="font-bold text-gray-800">
+                            {selectedNotification.confidence}
+                          </p>
+                        </div>
+                        <div className="col-span-2">
+                          <p className="text-gray-600 text-xs">Analysis Mode</p>
+                          <p className="font-bold text-gray-800">
+                            {selectedNotification.mode}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Close Button */}
+                    <button
+                      onClick={closeModal}
+                      className="w-full mt-6 py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white font-bold rounded-xl hover:shadow-lg transition-all"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </>
+              );
+            })()}
+          </div>
+        </div>
+      )}
+
+      {/* Styles */}
       <style jsx>{`
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
@@ -270,14 +399,44 @@ const AINotificationsCarousel = () => {
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
+        .line-clamp-1 {
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
         .line-clamp-3 {
           display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+        .animate-slideUp {
+          animation: slideUp 0.4s ease-out;
+        }
       `}</style>
-    </div>
+    </>
   );
 };
 
