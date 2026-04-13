@@ -6,11 +6,11 @@ export const fetchInsights = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       console.log(
-        "fetchInsights: Making request to http://localhost:8081/api/transactions/insights"
+        "fetchInsights: Making request to http://localhost:8080/api/transactions/insights"
       );
 
       const response = await fetch(
-        "http://localhost:8081/api/transactions/insights"
+        "http://localhost:8080/api/transactions/insights"
       );
 
       console.log("fetchInsights: Response status:", response.status);

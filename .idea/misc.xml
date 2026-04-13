@@ -10,10 +10,11 @@
         <option value="$PROJECT_DIR$/service-registry/serviceRegistry/pom.xml" />
         <option value="$PROJECT_DIR$/bank-insights-spring-backend/pom.xml" />
         <option value="$PROJECT_DIR$/nlp-service/nlpService/pom.xml" />
+        <option value="$PROJECT_DIR$/bank-insight-backend/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="22 (2)" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" project-jdk-name="26" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>

@@ -11,7 +11,7 @@ export const uploadTransactions = createAsyncThunk(
       formData.append("file", file);
 
       const response = await fetch(
-        "http://localhost:8081/api/transactions/upload",
+        "http://localhost:8080/api/transactions/upload",
         {
           method: "POST",
           body: formData,

@@ -196,7 +196,7 @@ const QRScanner = ({ onClose, onViewInsights }) => {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/api/payments/qr", {
+      const response = await fetch("http://localhost:8080/api/payments/qr", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -470,11 +470,10 @@ const QRScanner = ({ onClose, onViewInsights }) => {
                   <button
                     onClick={handlePayment}
                     disabled={!editableAmount || !notes.trim()}
-                    className={`flex-1 py-4 font-bold rounded-xl transition-all ${
-                      !editableAmount || !notes.trim()
+                    className={`flex-1 py-4 font-bold rounded-xl transition-all ${!editableAmount || !notes.trim()
                         ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                         : "bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:shadow-lg hover:scale-105"
-                    }`}
+                      }`}
                   >
                     Pay Now
                   </button>
@@ -567,40 +566,36 @@ const QRScanner = ({ onClose, onViewInsights }) => {
           className="fixed top-20 left-4 right-4 z-50 animate-slideDown max-w-lg mx-auto cursor-pointer"
         >
           <div
-            className={`bg-white rounded-xl shadow-2xl border-2 overflow-hidden ${
-              notification.severity === "WARNING"
+            className={`bg-white rounded-xl shadow-2xl border-2 overflow-hidden ${notification.severity === "WARNING"
                 ? "border-orange-400"
                 : notification.severity === "ALERT"
-                ? "border-red-400"
-                : "border-blue-400"
-            }`}
+                  ? "border-red-400"
+                  : "border-blue-400"
+              }`}
           >
             <div
-              className={`p-3 flex items-start gap-3 ${
-                notification.severity === "WARNING"
+              className={`p-3 flex items-start gap-3 ${notification.severity === "WARNING"
                   ? "bg-orange-50"
                   : notification.severity === "ALERT"
-                  ? "bg-red-50"
-                  : "bg-blue-50"
-              }`}
+                    ? "bg-red-50"
+                    : "bg-blue-50"
+                }`}
             >
               <div
-                className={`p-2 rounded-full flex-shrink-0 ${
-                  notification.severity === "WARNING"
+                className={`p-2 rounded-full flex-shrink-0 ${notification.severity === "WARNING"
                     ? "bg-orange-100"
                     : notification.severity === "ALERT"
-                    ? "bg-red-100"
-                    : "bg-blue-100"
-                }`}
+                      ? "bg-red-100"
+                      : "bg-blue-100"
+                  }`}
               >
                 <Bell
-                  className={`w-5 h-5 ${
-                    notification.severity === "WARNING"
+                  className={`w-5 h-5 ${notification.severity === "WARNING"
                       ? "text-orange-600"
                       : notification.severity === "ALERT"
-                      ? "text-red-600"
-                      : "text-blue-600"
-                  }`}
+                        ? "text-red-600"
+                        : "text-blue-600"
+                    }`}
                 />
               </div>
               <div className="flex-1 min-w-0">
@@ -609,13 +604,12 @@ const QRScanner = ({ onClose, onViewInsights }) => {
                     {notification.title}
                   </h4>
                   <span
-                    className={`text-xs px-2 py-0.5 rounded-full font-semibold ${
-                      notification.confidence === "HIGH"
+                    className={`text-xs px-2 py-0.5 rounded-full font-semibold ${notification.confidence === "HIGH"
                         ? "bg-green-100 text-green-700"
                         : notification.confidence === "MEDIUM"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-gray-100 text-gray-700"
-                    }`}
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
                   >
                     {notification.confidence}
                   </span>
@@ -625,11 +619,10 @@ const QRScanner = ({ onClose, onViewInsights }) => {
                 </p>
                 <div className="flex items-center gap-2 text-xs">
                   <span
-                    className={`px-2 py-0.5 rounded ${
-                      notification.mode === "RULE_BASED"
+                    className={`px-2 py-0.5 rounded ${notification.mode === "RULE_BASED"
                         ? "bg-purple-100 text-purple-700"
                         : "bg-blue-100 text-blue-700"
-                    }`}
+                      }`}
                   >
                     {notification.mode}
                   </span>

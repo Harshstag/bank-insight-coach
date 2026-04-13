@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: bank-insight-backend
+server:
+  port: 8080
+gemini:
+  api:
+    key: XXXXXXXXXXXXXXXXXXXXXXXXXX
+app:
+  csv:
+    path: ../bank-ai-coach/uploads/transactions.csv
