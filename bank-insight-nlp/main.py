@@ -1,4 +1,5 @@
 # python
+# pyrefly: ignore [missing-import]
 from fastapi import FastAPI, HTTPException
 import pandas as pd
 import os
@@ -10,6 +11,7 @@ from services.signal_generator import generate_signals
 from services.nlp_engine import generate_nlp_notification
 from services.transaction_loader import load_transactions
 from services.chat_context_builder import build_chat_context
+from services.memory_service import add_to_memory, recall_past_conversations
 
 app = FastAPI()
 
@@ -69,6 +71,24 @@ def get_nlp_notification():
 def get_chat_context(query: str = None):
     """
     RAG retrieval endpoint — returns the full financial context of the user's
-    uploaded statement. Called by Spring Boot before every chatbot message.
+    uploaded statement, plus relevant offers.
+    Called by Spring Boot before every chatbot message.
     """
     return build_chat_context(user_query=query)
+
+
+@app.post("/add-memory")
+def post_add_memory(data: dict):
+    """Store a user/assistant turn in long-term memory."""
+    user_msg = data.get("user")
+    ai_msg = data.get("assistant")
+    if user_msg and ai_msg:
+        add_to_memory(user_msg, ai_msg)
+        return {"status": "success"}
+    return {"status": "error", "message": "Missing user or assistant message"}
+
+
+@app.get("/recall-memory")
+def get_recall_memory(query: str):
+    """Recall similar past interactions from long-term memory."""
+    return recall_past_conversations(query)

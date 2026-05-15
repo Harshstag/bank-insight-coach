@@ -1,4 +1,4 @@
-# FinPulse AI 💰🤖
+# FinPulse AI
 
 ### _Your AI-Powered Conversational Financial Coach_
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 🌟 The Problem We Solve
+## The Problem We Solve
 
 Traditional banking apps show you _what_ you spent. **FinPulse AI** tells you _what to do next._
 
@@ -23,70 +23,31 @@ FinPulse AI solves this gap by building an **AI-powered conversational financial
 
 ---
 
-## 🌟 Key Features
+## The FinPulse AI Coach Experience
 
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### 📊 Smart Transaction Analysis
+How does the FinPulse AI Coach actually work to benefit both the user and the bank?
 
 <p align="center">
-  <img src="./Screenshots/Screenshot%202026-01-07%20161738.png" width="85%" />
+  <img src="./Screenshots/Screenshot%202026-05-16%20025155.png" width="30%" />
+  <img src="./Screenshots/Screenshot%202026-05-16%20030312.png" width="30%" />
+  <img src="./Screenshots/Screenshot%202026-05-16%20032200.png" width="30%" />
 </p>
 
-Upload your bank statements in **CSV, XLSX, or PDF** formats.
+### 1. Tracking Your Finances
 
-- Filter by category (Food, Shopping, Salary, EMI, etc.)
-- Clean debit/credit transaction history
-- **NLP-based auto-categorization** via a dedicated Python microservice
-- Real-time financial metrics dashboard
+FinPulse AI doesn't just look at a single question; it maintains a complete, real-time matrix of your financial health. By analyzing your uploaded statements, it tracks income, monthly/weekly spend, savings rate, and category-specific expenses. When you ask, "Am I on track financially?", the AI evaluates your actual spending velocity against your savings goals and provides grounded, data-backed advice.
 
-</td>
+### 2. Contextual Chat History
 
-<td width="50%" valign="top">
+The AI is equipped with a robust Memory Service powered by RAG vector memory that records user-assistant interactions. This means the chatbot remembers your past queries and goals. If you asked about saving for an AC last week, the AI uses vector similarity to retrieve that exact context, allowing for a continuous, highly personalized coaching experience without needing you to repeat yourself.
 
-### 🧠 AI-Driven Financial Coaching
+### 3. Intelligent Cross-Selling (Monetization for Banks)
 
-<p align="center">
-  <img src="./Screenshots/Screenshot%202026-01-07%20162016.png" width="85%" />
-</p>
-
-Powered by **Google Gemini Pro** + **RAG Pipeline**:
-
-- **Transaction-triggered AI notifications** with behavioral context
-- Spending alerts (e.g., "Food spend is 40% over your average")
-- Savings target recommendations
-- Loan/EMI affordability analysis
-
-</td>
-</tr>
-</table>
+While helping users make better financial decisions, FinPulse AI acts as a subtle, highly effective recommendation engine. By leveraging RAG vector memory to understand exactly what the user needs—whether it's a cashback credit card for high online spending or a home loan for a planned purchase—the AI seamlessly cross-sells relevant bank products...
 
 ---
 
-## 💬 Conversational Financial Planner
-
-<p align="center">
-  <img src="./Screenshots/Screenshot%202026-01-03%20164526.png" width="28%" />
-  <img src="./Screenshots/Screenshot%202026-01-07%20161908.png" width="28%" />
-  <img src="./Screenshots/Screenshot%202026-01-07%20161952.png" width="28%" />
-</p>
-
-The AI chatbot is not a generic assistant — it is a **context-aware financial planner** that is grounded in your actual transaction history.
-
-**Example Conversations:**
-
-- _"Can I afford an AC this month?"_ → AI evaluates current spending behavior, existing EMIs, and savings runway to give a recommendation.
-- _"How much should I save to get a home loan in 6 months?"_ → AI calculates a personalized savings target based on your income and spending patterns.
-- _"What's my biggest unnecessary expense?"_ → AI identifies behavioral patterns across categorized transactions.
-- _"Am I eligible for a higher credit limit?"_ → AI assesses financial health metrics and recommends the right bank product.
-
-**Banks can also use FinPulse AI** to intelligently recommend relevant financial products — loans, credit cards, insurance, SIPs, or investment plans — based on customer behavior and financial needs, turning the platform into a powerful cross-sell and upsell engine.
-
----
-
-## 🏗️ System Architecture
+## System Architecture
 
 The platform is built on a **three-tier microservices architecture** with a dedicated AI pipeline layer powered by **LangChain** and **LangGraph**.
 
@@ -127,6 +88,69 @@ graph TD
     C -- "Read CSV" --> G
 ```
 
+## Key Features
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 📊 Smart Transaction Analysis
+
+<p align="center">
+  <img src="./Screenshots/Screenshot%202026-01-07%20161738.png" width="65%" />
+</p>
+
+Upload your bank statements in **CSV, XLSX, or PDF** formats.
+
+- Filter by category (Food, Shopping, Salary, EMI, etc.)
+- Clean debit/credit transaction history
+- **NLP-based auto-categorization** via a dedicated Python microservice
+- Real-time financial metrics dashboard
+
+</td>
+
+<td width="50%" valign="top">
+
+### AI-Driven Financial Coaching
+
+<p align="center">
+  <img src="./Screenshots/Screenshot%202026-01-07%20162016.png" width="65%" />
+</p>
+
+Powered by **Google Gemini Pro** + **RAG Pipeline**:
+
+- **Transaction-triggered AI notifications** with behavioral context
+- Spending alerts (e.g., "Food spend is 40% over your average")
+- Savings target recommendations
+- Loan/EMI affordability analysis
+
+</td>
+</tr>
+</table>
+
+---
+
+## Conversational Financial Planner
+
+<p align="center">
+  <img src="./Screenshots/Screenshot%202026-01-03%20164526.png" width="28%" />
+  <img src="./Screenshots/Screenshot%202026-01-07%20161908.png" width="28%" />
+  <img src="./Screenshots/Screenshot%202026-01-07%20161952.png" width="28%" />
+</p>
+
+The AI chatbot is not a generic assistant — it is a **context-aware financial planner** that is grounded in your actual transaction history.
+
+**Example Conversations:**
+
+- _"Can I afford an AC this month?"_ → AI evaluates current spending behavior, existing EMIs, and savings runway to give a recommendation.
+- _"How much should I save to get a home loan in 6 months?"_ → AI calculates a personalized savings target based on your income and spending patterns.
+- _"What's my biggest unnecessary expense?"_ → AI identifies behavioral patterns across categorized transactions.
+- _"Am I eligible for a higher credit limit?"_ → AI assesses financial health metrics and recommends the right bank product.
+
+**Banks can also use FinPulse AI** to intelligently recommend relevant financial products — loans, credit cards, insurance, SIPs, or investment plans — based on customer behavior and financial needs, turning the platform into a powerful cross-sell and upsell engine.
+
+---
+
 ### Layer Breakdown
 
 | Layer                    | Technology                    | Responsibility                                               |
@@ -140,7 +164,7 @@ graph TD
 
 ---
 
-## 🧠 How the AI Works: RAG + LangGraph
+## How the AI Works: RAG + LangGraph
 
 ### RAG Pipeline (Retrieval-Augmented Generation)
 
@@ -164,9 +188,9 @@ This agentic workflow allows the system to break down complex financial decision
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-### 📋 Prerequisites
+### Prerequisites
 
 - **Java 17+** & Maven
 - **Python 3.9+**
@@ -185,6 +209,7 @@ npm run dev       # Starts NLP + Spring Boot + React together (Single Terminal)
 
 **Windows Users (Separate Terminals):**
 If you prefer each service to run in its own window for easier debugging:
+
 ```bash
 npm run dev:windows
 ```
@@ -240,7 +265,7 @@ The application will be available at **`http://localhost:5712`**.
 
 ---
 
-## 🔌 API Reference
+## API Reference
 
 ### Backend Endpoints (Port 8080)
 
@@ -263,7 +288,7 @@ The application will be available at **`http://localhost:5712`**.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category             | Technology                                         |
 | -------------------- | -------------------------------------------------- |

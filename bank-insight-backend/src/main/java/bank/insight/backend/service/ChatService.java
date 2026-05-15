@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Service
@@ -26,7 +28,7 @@ public class ChatService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private static final String NLP_CHAT_CONTEXT_URL = "http://localhost:8000/chat-context";
+    private static final String NLP_SERVICE_URL = "http://localhost:8000";
 
     /** Rolling in-memory conversation history (last MAX_HISTORY turns). */
     private final CopyOnWriteArrayList<ChatMessage> conversationHistory = new CopyOnWriteArrayList<>();
@@ -54,6 +56,10 @@ public class ChatService {
             === CUSTOMER FINANCIAL CONTEXT (based on uploaded bank statement) ===
             %s
             === END CONTEXT ===
+
+            === PAST RELEVANT INTERACTIONS (Long-term memory) ===
+            %s
+            === END MEMORY ===
             """;
 
     // ── Public API ──────────────────────────────────────────────────────────
@@ -67,35 +73,33 @@ public class ChatService {
      * 5. Append assistant reply, trim history, return response.
      */
     public ChatResponse chat(String userMessage) {
-
         // ── Step 1: RAG Retrieval — fetch live financial context ─────────────
         String financialContextJson = fetchFinancialContext(userMessage);
 
-        // ── Step 2: RAG Augmentation — inject context into system prompt ─────
-        String systemPrompt = SYSTEM_PROMPT_TEMPLATE.formatted(financialContextJson);
+        // ── Step 2: Recall Long-Term Memory ──────────────────────────────────
+        String pastMemoryJson = recallMemory(userMessage);
 
-        // ── Step 3: Append user turn ─────────────────────────────────────────
+        // ── Step 3: RAG Augmentation — inject context into system prompt ─────
+        String systemPrompt = SYSTEM_PROMPT_TEMPLATE.formatted(financialContextJson, pastMemoryJson);
+
+        // ── Step 4: Append user turn to short-term history ────────────────────
         conversationHistory.add(ChatMessage.builder()
                 .role("user")
                 .content(userMessage)
                 .timestamp(Instant.now())
                 .build());
 
-        // ── Step 4: Call Gemini with full history + grounded system prompt ────
+        // ── Step 5: Call Gemini ──────────────────────────────────────────────
         String reply;
         try {
-            // Pass a snapshot of the current history (thread-safe copy)
             List<ChatMessage> historySnapshot = List.copyOf(conversationHistory);
             reply = geminiClient.callGeminiChat(historySnapshot, systemPrompt);
-        } catch (JsonProcessingException e) {
-            log.error("Gemini chat call failed", e);
-            reply = "I'm having a little trouble connecting right now. Please try again in a moment.";
         } catch (Exception e) {
-            log.error("Unexpected error in ChatService", e);
-            reply = "Something went wrong on my end. Please try again shortly.";
+            log.error("Gemini chat call failed", e);
+            reply = "I'm having a little trouble connecting right now. Please try again.";
         }
 
-        // ── Step 5: Append assistant turn & trim history ─────────────────────
+        // ── Step 6: Append assistant turn & trim history ─────────────────────
         conversationHistory.add(ChatMessage.builder()
                 .role("assistant")
                 .content(reply)
@@ -103,6 +107,9 @@ public class ChatService {
                 .build());
 
         trimHistory();
+
+        // ── Step 7: Store in Long-Term Memory ────────────────────────────────
+        storeMemory(userMessage, reply);
 
         return ChatResponse.builder()
                 .reply(reply)
@@ -127,18 +134,38 @@ public class ChatService {
     @SuppressWarnings("unchecked")
     private String fetchFinancialContext(String userMessage) {
         try {
-            String url = NLP_CHAT_CONTEXT_URL;
-            if (userMessage != null && !userMessage.isBlank()) {
-                url += "?query=" + userMessage;
-            }
-            Map<String, Object> context = restTemplate.getForObject(url, Map.class);
-            if (context != null && context.containsKey("error")) {
-                return "No bank statement has been uploaded yet. The user needs to upload their statement first.";
-            }
-            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(context);
+            String encodedQuery = URLEncoder.encode(userMessage, StandardCharsets.UTF_8);
+            String url = NLP_SERVICE_URL + "/chat-context?query=" + encodedQuery;
+            return restTemplate.getForObject(url, String.class);
         } catch (Exception e) {
-            log.warn("Could not fetch chat context from NLP service: {}", e.getMessage());
-            return "Financial context unavailable. The NLP service may be starting up.";
+            log.error("Failed to fetch context from NLP service", e);
+            return "{}";
+        }
+    }
+
+    /**
+     * Helper to recall past interactions from long-term memory.
+     */
+    private String recallMemory(String query) {
+        try {
+            String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
+            String url = NLP_SERVICE_URL + "/recall-memory?query=" + encodedQuery;
+            return restTemplate.getForObject(url, String.class);
+        } catch (Exception e) {
+            log.warn("Memory recall failed: {}", e.getMessage());
+            return "[]";
+        }
+    }
+
+    /**
+     * Helper to store a turn in long-term memory (Asynchronous to avoid blocking).
+     */
+    private void storeMemory(String user, String assistant) {
+        try {
+            Map<String, String> body = Map.of("user", user, "assistant", assistant);
+            restTemplate.postForObject(NLP_SERVICE_URL + "/add-memory", body, String.class);
+        } catch (Exception e) {
+            log.warn("Memory storage failed: {}", e.getMessage());
         }
     }
 

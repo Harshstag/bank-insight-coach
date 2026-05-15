@@ -5,5 +5,9 @@
     "JAVA_HOME": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot",
     "Path": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot\\bin;${env:Path}"
   },
-  "java.compile.nullAnalysis.mode": "automatic"
+  "java.compile.nullAnalysis.mode": "automatic",
+  "python.defaultInterpreterPath": "${workspaceFolder}/bank-insight-nlp/venv/Scripts/python.exe",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/bank-insight-nlp/venv/Lib/site-packages"
+  ]
 }
