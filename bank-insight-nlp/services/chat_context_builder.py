@@ -7,21 +7,33 @@ import pandas as pd
 from .transaction_loader import load_transactions
 from .categorizer import categorize_transaction
 
+from .offer_retriever import get_relevant_offers
+
 CSV_PATH = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "..", "..", "uploads", "transactions.csv"
 )
 
 
-def build_chat_context() -> dict:
+def build_chat_context(user_query: str = None) -> dict:
     """
     Assemble a rich financial context object from the uploaded CSV.
     This is the RAG 'retrieval' step — all real user data is packed here
     before being injected into the Gemini system prompt.
 
+    Args:
+        user_query: The current user message to find relevant offers for.
+
     Returns a structured dict, or a minimal error dict if no CSV is found.
     """
+    # ── Step A: Get Relevant Offers (Semantic RAG) ──────────────────────────
+    relevant_offers = get_relevant_offers(user_query) if user_query else []
+
     if not os.path.exists(CSV_PATH):
-        return {"error": "no_data", "message": "No bank statement uploaded yet."}
+        return {
+            "error": "no_data", 
+            "message": "No bank statement uploaded yet.",
+            "relevant_offers": relevant_offers
+        }
 
     df = load_transactions()
 
@@ -126,4 +138,5 @@ def build_chat_context() -> dict:
         "top_categories": top_categories,
         "recent_transactions": recent_transactions,
         "total_transactions": int(len(df)),
+        "relevant_offers": relevant_offers
     }

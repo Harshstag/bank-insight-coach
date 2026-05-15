@@ -180,7 +180,13 @@ This project uses `concurrently` to start all three services simultaneously from
 ```bash
 # From the project root: bank-ai-coach/
 npm install       # Only needed the first time
-npm run dev       # Starts NLP + Spring Boot + React together
+npm run dev       # Starts NLP + Spring Boot + React together (Single Terminal)
+```
+
+**Windows Users (Separate Terminals):**
+If you prefer each service to run in its own window for easier debugging:
+```bash
+npm run dev:windows
 ```
 
 **That's it.** All services will start with color-coded logs in a single terminal:

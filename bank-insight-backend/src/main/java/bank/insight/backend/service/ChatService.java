@@ -69,7 +69,7 @@ public class ChatService {
     public ChatResponse chat(String userMessage) {
 
         // ── Step 1: RAG Retrieval — fetch live financial context ─────────────
-        String financialContextJson = fetchFinancialContext();
+        String financialContextJson = fetchFinancialContext(userMessage);
 
         // ── Step 2: RAG Augmentation — inject context into system prompt ─────
         String systemPrompt = SYSTEM_PROMPT_TEMPLATE.formatted(financialContextJson);
@@ -125,10 +125,13 @@ public class ChatService {
      * financial context as a pretty-printed JSON string for the system prompt.
      */
     @SuppressWarnings("unchecked")
-    private String fetchFinancialContext() {
+    private String fetchFinancialContext(String userMessage) {
         try {
-            Map<String, Object> context = restTemplate.getForObject(
-                    NLP_CHAT_CONTEXT_URL, Map.class);
+            String url = NLP_CHAT_CONTEXT_URL;
+            if (userMessage != null && !userMessage.isBlank()) {
+                url += "?query=" + userMessage;
+            }
+            Map<String, Object> context = restTemplate.getForObject(url, Map.class);
             if (context != null && context.containsKey("error")) {
                 return "No bank statement has been uploaded yet. The user needs to upload their statement first.";
             }

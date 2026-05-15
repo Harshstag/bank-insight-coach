@@ -6,7 +6,8 @@
     "dev": "concurrently -c \"blue,magenta,cyan\" -n \"NLP,SPRING,REACT\" \"npm run dev:nlp\" \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:nlp": "cd bank-insight-nlp && .\\venv\\Scripts\\python.exe -m uvicorn main:app --reload --host 0.0.0.0 --port 8000",
     "dev:backend": "cd bank-insight-backend && .\\mvnw.cmd spring-boot:run",
-    "dev:frontend": "cd bank-insight-frontend && npm run dev"
+    "dev:frontend": "cd bank-insight-frontend && npm run dev",
+    "dev:windows": "start cmd /k \"npm run dev:nlp\" & start cmd /k \"npm run dev:backend\" & start cmd /k \"npm run dev:frontend\""
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

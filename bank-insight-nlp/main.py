@@ -66,9 +66,9 @@ def get_nlp_notification():
 
 
 @app.get("/chat-context")
-def get_chat_context():
+def get_chat_context(query: str = None):
     """
     RAG retrieval endpoint — returns the full financial context of the user's
     uploaded statement. Called by Spring Boot before every chatbot message.
     """
-    return build_chat_context()
+    return build_chat_context(user_query=query)
