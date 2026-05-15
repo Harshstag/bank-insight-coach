@@ -10,5 +10,11 @@
     "timestamp": "2026-05-16T03:51:50.257646",
     "user": "Can I afford an AC this month?",
     "assistant": "With a current surplus of approximately \u20b968,000 after your regular expenses, you can comfortably afford an AC this month. Most quality 1.5-ton units range between \u20b935,000 and \u20b950,000, which fits well within your available balance while still leaving a healthy safety net. Just keep in mind the potential increase in your monthly electricity bills and any one-time installation charges!"
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-05-16T04:07:25.162526",
+    "user": "Where am I overspending?",
+    "assistant": "Your spending is quite disciplined, and with an income of \u20b985,345, you are maintaining an excellent savings rate. Most of your discretionary spending appears in lifestyle categories like food delivery, dining, and cab services. While these are well within your budget, keeping a small check on these \"convenience\" expenses can help you optimize your monthly surplus even further."
   }
 ]
