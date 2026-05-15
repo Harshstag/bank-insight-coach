@@ -7,18 +7,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="serviceRegistry" />
-        <module name="llmService" />
-      </profile>
-      <profile name="Annotation profile for nlpService" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
-        </processorPath>
-        <module name="nlpService" />
       </profile>
       <profile name="Annotation profile for bank-insight-backend" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -26,12 +14,16 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
         <module name="bank-insight-backend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="insights" target="17" />
+      <module name="llmService" target="17" />
+      <module name="nlpService" target="17" />
+      <module name="serviceRegistry" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

@@ -10,6 +10,7 @@ import UploadCsv from "./components/UploadCsv";
 import TransactionsTable from "./components/TransactionsTable";
 import InsightsDashboard from "./components/InsightsDashboard";
 import QRScanner from "./components/QRScanner";
+import ChatBot from "./components/ChatBot";
 import {
   selectTransactions,
   selectError,
@@ -168,7 +169,6 @@ function App() {
                 💡 Insights
               </button>
             </div>
-
             <div key={activeTab} className="animate-fadeIn">
               {activeTab === "transactions" && <TransactionsTable />}
               {activeTab === "insights" && <InsightsDashboard />}
@@ -181,12 +181,9 @@ function App() {
           <div className="max-w-4xl mx-auto text-center px-6">
             <div className="bg-white rounded-2xl p-12 shadow-lg border-2 border-yellow-300">
               <div className="text-6xl mb-4">📈</div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                No Data Yet
-              </h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">No Data Yet</h3>
               <p className="text-gray-600">
-                Upload your bank statement CSV to start analyzing your financial
-                insights
+                Upload your bank statement CSV to start analyzing your financial insights
               </p>
             </div>
           </div>
@@ -200,6 +197,9 @@ function App() {
       >
         <QrCode className="w-8 h-8" />
       </button>
+
+      {/* FinPulse AI Chatbot — FAB button fixed bottom-left, opens full-screen modal */}
+      <ChatBot />
 
       {/* Custom Styles */}
       <style jsx>{`

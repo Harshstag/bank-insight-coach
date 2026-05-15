@@ -1,0 +1,14 @@
+{
+  "name": "bank-ai-coach-runner",
+  "version": "1.0.0",
+  "description": "Starts all services for Bank AI Coach simultaneously",
+  "scripts": {
+    "dev": "concurrently -c \"blue,magenta,cyan\" -n \"NLP,SPRING,REACT\" \"npm run dev:nlp\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:nlp": "cd bank-insight-nlp && .\\venv\\Scripts\\python.exe -m uvicorn main:app --reload --host 0.0.0.0 --port 8000",
+    "dev:backend": "cd bank-insight-backend && .\\mvnw.cmd spring-boot:run",
+    "dev:frontend": "cd bank-insight-frontend && npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

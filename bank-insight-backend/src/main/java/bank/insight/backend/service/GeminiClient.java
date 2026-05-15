@@ -1,5 +1,6 @@
 package bank.insight.backend.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bank.insight.backend.dto.AiInsightRequest;
 import bank.insight.backend.dto.AiInsightResponse;
+import bank.insight.backend.dto.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -140,6 +142,52 @@ public class GeminiClient {
                                 .confidence(node.path("confidence").asText("MEDIUM"))
                                 .category(node.path("category").asText("Other"))
                                 .build();
+        }
+
+        /**
+         * Multi-turn chat call to Gemini.
+         *
+         * @param history       The conversation so far (alternating user / assistant turns).
+         * @param systemPrompt  The financial context injected as the system instruction.
+         * @return              The model's plain-text reply.
+         */
+        public String callGeminiChat(List<ChatMessage> history, String systemPrompt)
+                        throws JsonProcessingException {
+
+                // Build the 'contents' array: each ChatMessage → one content object
+                List<Map<String, Object>> contents = new ArrayList<>();
+                for (ChatMessage msg : history) {
+                        String geminiRole = "user".equals(msg.getRole()) ? "user" : "model";
+                        contents.add(Map.of(
+                                        "role", geminiRole,
+                                        "parts", List.of(Map.of("text", msg.getContent()))));
+                }
+
+                // Gemini supports system_instruction as a top-level field
+                Map<String, Object> body = Map.of(
+                                "system_instruction", Map.of(
+                                                "parts", List.of(Map.of("text", systemPrompt))),
+                                "contents", contents);
+
+                String response = webClient.post()
+                                .uri(GEMINI_URL + "?key=" + apiKey)
+                                .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                                .bodyValue(body)
+                                .retrieve()
+                                .bodyToMono(String.class)
+                                .block();
+
+                log.info("RAW GEMINI CHAT RESPONSE ====> {}", response);
+
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode root = mapper.readTree(response);
+                return root.path("candidates")
+                                .get(0)
+                                .path("content")
+                                .path("parts")
+                                .get(0)
+                                .path("text")
+                                .asText("I'm sorry, I couldn't generate a response right now.");
         }
 
 }

@@ -9,6 +9,7 @@ from services.insights import generate_insights
 from services.signal_generator import generate_signals
 from services.nlp_engine import generate_nlp_notification
 from services.transaction_loader import load_transactions
+from services.chat_context_builder import build_chat_context
 
 app = FastAPI()
 
@@ -54,7 +55,7 @@ def recalculate():
 
 
 @app.get("/nlpNotification")
-def get_insights():
+def get_nlp_notification():
     signals = generate_signals()
     nlp = generate_nlp_notification(signals)
 
@@ -62,3 +63,12 @@ def get_insights():
         "signals": signals,
         "nlpNotification": nlp
     }
+
+
+@app.get("/chat-context")
+def get_chat_context():
+    """
+    RAG retrieval endpoint — returns the full financial context of the user's
+    uploaded statement. Called by Spring Boot before every chatbot message.
+    """
+    return build_chat_context()
