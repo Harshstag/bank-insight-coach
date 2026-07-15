@@ -1,2 +1,13 @@
 llm-service/llmService/src/main/resources/application.yml
 .env
+.env.*
+node_modules/
+venv/
+target/
+*.class
+test_api.py
+test_api_out.txt
+.idea/
+.vscode/
+uploads/*
+!uploads/.gitkeep

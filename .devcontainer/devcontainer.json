@@ -1,0 +1,40 @@
+{
+  "name": "Bank AI Coach Dev Environment",
+  "image": "mcr.microsoft.com/devcontainers/java:17",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.10"
+    }
+  },
+  "forwardPorts": [5712, 8080, 8000],
+  "portsAttributes": {
+    "5712": {
+      "label": "React Frontend",
+      "onAutoForward": "openBrowser"
+    },
+    "8080": {
+      "label": "Spring Boot Backend",
+      "onAutoForward": "silent"
+    },
+    "8000": {
+      "label": "NLP Python Service",
+      "onAutoForward": "silent"
+    }
+  },
+  "postCreateCommand": "npm install && cd bank-insight-frontend && npm install && cd ../bank-insight-nlp && python3 -m venv venv && ./venv/bin/pip install -r requirements.txt && cd ../bank-insight-backend && chmod +x mvnw",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "ms-python.python",
+        "dbaeumer.vscode-eslint"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "${workspaceFolder}/bank-insight-nlp/venv/bin/python"
+      }
+    }
+  }
+}

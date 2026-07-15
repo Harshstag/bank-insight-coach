@@ -28,7 +28,7 @@ public class GeminiClient {
         @Value("${gemini.api.key}")
         private String apiKey;
 
-        private static final String GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
+        private static final String GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent";
 
         public AiInsightResponse callGemini(String prompt) throws JsonProcessingException {
 

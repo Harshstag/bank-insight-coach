@@ -196,7 +196,7 @@ const QRScanner = ({ onClose, onViewInsights }) => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/api/payments/qr", {
+      const response = await fetch("/api/payments/qr", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

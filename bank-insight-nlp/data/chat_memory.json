@@ -16,5 +16,41 @@
     "timestamp": "2026-05-16T04:07:25.162526",
     "user": "Where am I overspending?",
     "assistant": "Your spending is quite disciplined, and with an income of \u20b985,345, you are maintaining an excellent savings rate. Most of your discretionary spending appears in lifestyle categories like food delivery, dining, and cab services. While these are well within your budget, keeping a small check on these \"convenience\" expenses can help you optimize your monthly surplus even further."
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-07-14T13:26:27.106809",
+    "user": "Can I afford an AC this month?",
+    "assistant": "Yes, you can comfortably afford to purchase an AC this month. With your monthly income of \u20b985,345 and relatively low fixed expenses (such as rent at \u20b915,000), you have a very healthy surplus. A standard 1.5-ton AC typically costs between \u20b935,000 and \u20b950,000, which fits easily into your budget while leaving you with a secure financial cushion. Just remember to account for one-time installation charges and a slight increase in your upcoming electricity bills."
+  },
+  {
+    "id": 5,
+    "timestamp": "2026-07-15T18:46:39.863604",
+    "user": "can i afford an ac this month tell me whats my bak balance",
+    "assistant": "I'm having a little trouble connecting right now. Please try again."
+  },
+  {
+    "id": 6,
+    "timestamp": "2026-07-15T18:51:57.785705",
+    "user": "can ia afford to buy and ac this month also whats my bank balance",
+    "assistant": "I'm having a little trouble connecting right now. Please try again."
+  },
+  {
+    "id": 7,
+    "timestamp": "2026-07-15T19:08:43.830982",
+    "user": "can i buy ac this month",
+    "assistant": "I'm having a little trouble connecting right now. Please try again."
+  },
+  {
+    "id": 8,
+    "timestamp": "2026-07-15T19:12:26.783331",
+    "user": "can i buy ac this month",
+    "assistant": "I'm having a little trouble connecting right now. Please try again."
+  },
+  {
+    "id": 9,
+    "timestamp": "2026-07-15T19:16:35.427592",
+    "user": "can i buy ac this month",
+    "assistant": "Based on your spending patterns for the first half of July, your total monthly expenditure is currently exceeding your income, leaving you with a negative savings balance. Adding a significant purchase like an AC right now would increase your financial strain. \n\nIt would be wiser to wait until you have a surplus in your budget before making such a high-value purchase. If you frequently shop online for home needs, I recommend exploring the **Amazon Pay ICICI Bank Credit Card**; it offers cashback that could help you save on future necessary purchases rather than adding to your current monthly deficit."
   }
 ]

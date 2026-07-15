@@ -66,7 +66,7 @@ export default function ChatBot() {
   const [hasNew, setHasNew] = useState(false);
   const [msgs, setMsgs] = useState([{
     role:"assistant",
-    content:"Hi! I'm FinPulse AI — your personal financial coach 💰\n\nUpload your bank statement and ask me anything: affordability checks, savings goals, EMI planning, and more!",
+    content:"Hi! I'm Twin AI by Harshstag — your personal financial coach ✨\n\nUpload your bank statement and ask me anything: affordability checks, savings goals, EMI planning, and more!",
   }]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -104,7 +104,7 @@ export default function ChatBot() {
 
   const clear = async () => {
     try{ await clearChatHistory(); }catch(_){}
-    setMsgs([{role:"assistant",content:"Chat cleared! How can I help with your finances today? 💰"}]);
+    setMsgs([{role:"assistant",content:"Chat cleared! How can I help with your finances today? ✨"}]);
   };
 
   const onKey = e => { if(e.key==="Enter"&&!e.shiftKey){ e.preventDefault(); send(); } };
@@ -256,8 +256,8 @@ export default function ChatBot() {
           id="fp-fab"
           className="fp-root"
           onClick={()=>setOpen(true)}
-          aria-label="Open FinPulse AI"
-          title="FinPulse AI Coach"
+          aria-label="Open Twin AI"
+          title="Twin AI Coach"
           style={{
             position:"fixed", bottom:32, left:32, zIndex:9999,
             width:58, height:58, borderRadius:"50%", border:"none", cursor:"pointer",
@@ -284,7 +284,7 @@ export default function ChatBot() {
             }}
           />
 
-          <div id="fp-modal" role="dialog" aria-modal="true" aria-label="FinPulse AI Chat">
+          <div id="fp-modal" role="dialog" aria-modal="true" aria-label="Twin AI Chat">
 
             {/* ── Desktop sidebar ──────────────────────────────────────── */}
             <div id="fp-sidebar">
@@ -293,8 +293,8 @@ export default function ChatBot() {
                 <div style={{width:52,height:52,borderRadius:"50%",background:"white",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 4px 16px rgba(124,58,237,.22)",marginBottom:4}}>
                   <BotIcon size={26}/>
                 </div>
-                <p style={{margin:0,fontSize:17,fontWeight:700,color:"#1A1A2E",letterSpacing:"-0.3px"}}>FinPulse AI</p>
-                <p style={{margin:0,fontSize:12,color:"#6B7280",fontWeight:500}}>Your financial coach</p>
+                <p style={{margin:0,fontSize:17,fontWeight:700,color:"#1A1A2E",letterSpacing:"-0.3px"}}>Twin AI</p>
+                <p style={{margin:0,fontSize:12,color:"#6B7280",fontWeight:500}}>By Harshstag</p>
                 <div style={{display:"inline-flex",alignItems:"center",gap:5,marginTop:4,background:"#DCFCE7",border:"1.5px solid #BBF7D0",borderRadius:20,padding:"3px 12px",fontSize:11,fontWeight:700,color:"#166534"}}>
                   <span style={{width:6,height:6,borderRadius:"50%",background:"#22C55E",display:"inline-block",flexShrink:0}}/>
                   Online & Ready
@@ -326,7 +326,7 @@ export default function ChatBot() {
                     <BotIcon size={19}/>
                   </div>
                   <div>
-                    <p id="fp-header-title" style={{margin:0,fontSize:15,fontWeight:700,color:"#1A1A2E",letterSpacing:"-0.2px"}}>AI Assistant</p>
+                    <p id="fp-header-title" style={{margin:0,fontSize:15,fontWeight:700,color:"#1A1A2E",letterSpacing:"-0.2px"}}>Twin AI</p>
                     <div id="fp-header-meta" style={{display:"flex",alignItems:"center",gap:5,marginTop:2}}>
                       <span style={{width:6,height:6,borderRadius:"50%",background:"#22C55E",display:"inline-block"}}/>
                       <span style={{fontSize:11.5,color:"#6B7280",fontWeight:500}}>Powered by Gemini · RAG-grounded</span>

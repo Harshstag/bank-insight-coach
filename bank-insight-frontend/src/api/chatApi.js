@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080/api/chat";
+const BASE_URL = "/api/chat";
 
 /**
  * Send a user message to the chatbot and receive an AI reply.

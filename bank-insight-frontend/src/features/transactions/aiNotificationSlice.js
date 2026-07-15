@@ -6,7 +6,7 @@ export const fetchAINotifications = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/insights/last5NlpNotifications"
+        "/api/insights/last5NlpNotifications"
       );
 
       if (!response.ok) {
