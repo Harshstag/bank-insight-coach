@@ -15,7 +15,7 @@ if (isWin) {
 
 const frontendCmd = 'cd bank-insight-frontend && npm run dev';
 
-const concurrentlyCmd = `npx concurrently -c "blue,magenta,cyan" -n "NLP,SPRING,REACT" "${nlpCmd}" "${backendCmd}" "${frontendCmd}"`;
+const concurrentlyCmd = `node ./node_modules/concurrently/dist/bin/concurrently.js -c "blue,magenta,cyan" -n "NLP,SPRING,REACT" "${nlpCmd}" "${backendCmd}" "${frontendCmd}"`;
 
 console.log(`Starting FinPulse AI services on platform: ${os.platform()}...`);
 const child = spawn(concurrentlyCmd, { shell: true, stdio: 'inherit' });
